@@ -5,30 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe - Neon Theme</title>
     <style>
-        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
         body {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #c9e1c9;
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
             animation: bgAnimation 10s infinite alternate;
         }
 
-       
+        @keyframes bgAnimation {
+            0% { background: linear-gradient(135deg, #1f4037, #99f2c8); }
+            50% { background: linear-gradient(135deg, #6a11cb, #2575fc); }
+            100% { background: linear-gradient(135deg, #ff6a00, #ee0979); }
+        }
+
         .container {
-            background: rgba(192, 136, 136, 0.9);
+            background: rgba(0, 0, 0, 0.9);
             color: #fff;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(188, 93, 93, 0.7);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
             text-align: center;
         }
 
         h1 {
             font-size: 36px;
-            color: #ececec;
+            color: #ffcc00;
             margin-bottom: 20px;
         }
 
@@ -41,44 +51,45 @@
         .cell {
             width: 100px;
             height: 100px;
-            background: #201e1e;
+            background: #333;
             border: 2px solid #444;
             border-radius: 10px;
             font-size: 36px;
-            
+            color: #0ff;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             transition: 0.3s;
-            box-shadow: 0 0 15px rgba(160, 164, 105, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
         }
 
         .cell:hover {
-            background: #888181;
-            box-shadow: 0 0 25px rgba(202, 156, 138, 0.8);
+            background: #555;
+            box-shadow: 0 0 25px rgba(255, 255, 0, 0.8);
         }
 
         .cell.x {
-            color: #ff5733; 
+            color: #ff5733; /* Orange for X */
         }
 
         .cell.o {
-            color: #33ff57; 
+            color: #33ff57; /* Green for O */
         }
 
         .winning-line {
             animation: blink 0.5s infinite alternate;
         }
 
-       
+        @keyframes blink {
+            0% { background: rgba(255, 255, 0, 0.3); }
+            100% { background: rgba(0, 255, 255, 0.3); }
+        }
 
         .message {
-            font-size: 30px;
+            font-size: 20px;
             margin: 20px 0;
-            color: #000000;
-            background-color: #ececec;
-            border-radius: 10px;
+            color: #ffcc00;
         }
 
         button {
@@ -101,7 +112,7 @@
 <body>
 
 <div class="container">
-    <h1>Tic Tac Toe </h1>
+    <h1>Tic Tac Toe 🕹</h1>
 
     <div class="board" id="board"></div>
 
@@ -118,7 +129,7 @@
     let cells = Array(9).fill(null);
     let gameActive = true;
 
-    
+    // Create board cells dynamically
     function createBoard() {
         board.innerHTML = "";
         cells = Array(9).fill(null);
@@ -134,7 +145,7 @@
         });
     }
 
-    
+    // Handle cell click
     function handleCellClick(e) {
         const index = e.target.dataset.index;
 
@@ -144,7 +155,7 @@
             e.target.classList.add(currentPlayer === "X" ? "x" : "o");
 
             if (checkWinner()) {
-                message.textContent =` ${currentPlayer} Wins! 🎉;`
+                message.textContent = `${currentPlayer} Wins! 🎉;`
                 highlightWinningCells();
                 gameActive = false;
             } else if (cells.every(cell => cell !== null)) {
@@ -152,17 +163,17 @@
                 gameActive = false;
             } else {
                 currentPlayer = currentPlayer === "X" ? "O" : "X";
-                message.textContent =`  ${currentPlayer}'s Turn`
+                message.textContent = `${currentPlayer} S Turn;`
             }
         }
     }
 
-    
+    // Check for winning combinations
     function checkWinner() {
         const winningCombinations = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8],  
-            [0, 3, 6], [1, 4, 7], [2, 5, 8],  
-            [0, 4, 8], [2, 4, 6]              
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],  // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],  // Columns
+            [0, 4, 8], [2, 4, 6]              // Diagonals
         ];
 
         for (const combo of winningCombinations) {
@@ -176,22 +187,21 @@
         return false;
     }
 
-    
+    // Highlight winning cells
     function highlightCells(combo) {
         combo.forEach(index => {
-            const cell = document.querySelector(cell[data-index ,"${index}"]);
+            const cell = document.querySelector(cell[data-index=="${index}"]);
             cell.classList.add("winning-line");
         });
     }
 
-    
+    // Reset game
     function resetGame() {
         currentPlayer = "X";
         createBoard();
     }
 
-
-    createBoard();
+createBoard();
 </script>
 
 </body>
